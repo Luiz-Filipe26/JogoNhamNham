@@ -85,15 +85,23 @@ class Board(
     }
 
     fun determineDraw(): Boolean {
-        val colorOfNextTurn = gameManager.colorOfTurn.getTheOtherColor()
+        val colorOfNextTurn = gameManager.colorOfTurn
+
+        if (positionToPiece.flatten().any { it == null }) {
+            return false
+        }
 
         val pieces = if (colorOfNextTurn == PieceColor.ORANGE) gameManager.orangePieces else gameManager.bluePieces
         val opponentPieces = if (colorOfNextTurn == PieceColor.ORANGE) gameManager.bluePieces else gameManager.orangePieces
 
         val maxSizePieceToUse = pieces.flatten().filter { !it.isInBoard }.maxOfOrNull { it.pieceSize.value }
+        if(maxSizePieceToUse == null) {
+            return true
+        }
+
         val minOpponentPieceSizeInBoard = opponentPieces.flatten().filter { it.isInBoard }.minOfOrNull { it.pieceSize.value }
 
-        return maxSizePieceToUse == null || (minOpponentPieceSizeInBoard != null && minOpponentPieceSizeInBoard > maxSizePieceToUse)
+        return minOpponentPieceSizeInBoard != null && minOpponentPieceSizeInBoard > maxSizePieceToUse
     }
 
     fun determineWinner(): PieceColor? {
