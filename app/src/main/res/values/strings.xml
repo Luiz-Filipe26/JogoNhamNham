@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Jogo Nham Nham</string>
+    <string name="title">Jogo Nham Nham</string>
+    <string name="your_choice">Sua escolha:</string>
+    <string name="reset_game">Reiniciar jogo</string>
+    <string name="board_image">board image</string>
+    <string name="start_game">Iniciar Jogo</string>
+    <string name="current_turn">Vez do jogador</string>
+    <string name="show_game_rules">Ver Regras do Jogo</string>
+    <string name="player_won">"Jogador %1$s venceu!"</string>
+    <string name="rules_txt">
+"Regras do Jogo \"Nham Nham\"\n\n
+Objetivo:\n
+Alinhe três peças do mesmo jogador em sequência (horizontal, vertical ou diagonal) para vencer.\n\n
+Dinâmica do Jogo:\n
+- O jogo é jogado em um tabuleiro 3x3.\n
+- Dois jogadores alternam turnos para posicionar peças de três tamanhos: pequeno, médio e grande.\n
+- Uma peça maior pode cobrir uma menor já posicionada na mesma célula.\n\n
+Regras:\n
+1. Os jogadores alternam turnos para posicionar suas peças no tabuleiro.\n
+2. Apenas peças maiores podem ser colocadas sobre peças menores já existentes.\n
+3. O jogo termina quando um jogador alinhar três peças do mesmo tipo (horizontal, vertical ou diagonal).\n
+4. Se o tabuleiro estiver completamente preenchido sem um vencedor, o jogo termina em empate.\n\n
+Como Jogar:\n
+- No seu turno, selecione uma célula do tabuleiro para posicionar sua peça.\n
+- Planeje suas jogadas e tente alinhar suas peças para vencer!"
+    </string>
+    <string name="blue_player">Jogador Azul:</string>
+    <string name="orange_player">Jogador Laranja:</string>
+    <string name="blue_player_name">Nome do Jogador Azul</string>
+    <string name="orange_player_name">Nome do Jogador Laranja</string>
+    <string name="oranges_start">Laranjas começam:</string>
+</resources>
