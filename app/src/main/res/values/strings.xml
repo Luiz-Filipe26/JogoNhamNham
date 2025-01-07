@@ -5,9 +5,10 @@
     <string name="reset_game">Reiniciar jogo</string>
     <string name="board_image">board image</string>
     <string name="start_game">Iniciar Jogo</string>
-    <string name="current_turn">Vez do jogador</string>
+    <string name="current_turn">Vez do jogador %1$s</string>
     <string name="show_game_rules">Ver Regras do Jogo</string>
     <string name="player_won">"Jogador %1$s venceu!"</string>
+    <string name="draw_game">Empate!</string>
     <string name="rules_txt">
 "Regras do Jogo \"Nham Nham\"\n\n
 Objetivo:\n
@@ -30,4 +31,7 @@ Como Jogar:\n
     <string name="blue_player_name">Nome do Jogador Azul</string>
     <string name="orange_player_name">Nome do Jogador Laranja</string>
     <string name="oranges_start">Laranjas começam:</string>
+    <string name="toast_fill_player_names">Por favor, preencha os nomes dos jogadores</string>
+    <string name="rules_dialog_title">Regras do Jogo</string>
+    <string name="close_button">Fechar</string>
 </resources>

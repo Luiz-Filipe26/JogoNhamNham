@@ -7,7 +7,8 @@ import kotlin.math.hypot
 
 class Board(
     private val numOfRows: Int,
-    private val numOfColumns: Int
+    private val numOfColumns: Int,
+    private val gameManager: GameManager
 ) {
     private val boardGrid = MutableList(numOfRows) { MutableList(numOfColumns) { PointF() } }
     private val positionToPiece = Array(numOfRows) { arrayOfNulls<Piece>(numOfColumns) }
@@ -81,6 +82,18 @@ class Board(
 
     private fun distanceBetween(p1: PointF, p2: PointF): Float {
         return (hypot((p1.x - p2.x).toDouble(), (p1.y - p2.y).toDouble())).toFloat()
+    }
+
+    fun determineDraw(): Boolean {
+        val colorOfNextTurn = gameManager.colorOfTurn.getTheOtherColor()
+
+        val pieces = if (colorOfNextTurn == PieceColor.ORANGE) gameManager.orangePieces else gameManager.bluePieces
+        val opponentPieces = if (colorOfNextTurn == PieceColor.ORANGE) gameManager.bluePieces else gameManager.orangePieces
+
+        val maxSizePieceToUse = pieces.flatten().filter { !it.isInBoard }.maxOfOrNull { it.pieceSize.value }
+        val minOpponentPieceSizeInBoard = opponentPieces.flatten().filter { it.isInBoard }.minOfOrNull { it.pieceSize.value }
+
+        return maxSizePieceToUse == null || (minOpponentPieceSizeInBoard != null && minOpponentPieceSizeInBoard > maxSizePieceToUse)
     }
 
     fun determineWinner(): PieceColor? {

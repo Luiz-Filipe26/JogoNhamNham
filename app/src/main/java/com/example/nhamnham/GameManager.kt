@@ -3,24 +3,29 @@ package com.example.nhamnham
 import android.content.Context
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import com.example.nhamnham.databinding.ActivityGameBinding
 
-class GameManager(private val context: Context, private val binding: ActivityGameBinding) {
+class GameManager(
+    private val context: Context,
+    private val binding: ActivityGameBinding,
+    private val bluePlayerName: String,
+    private val orangePlayerName: String,
+    orangeStarts: Boolean
+) {
 
-    private var orangePieces = mutableListOf<MutableList<Piece>>() // 3x3 grid of Pieces
-    private var bluePieces = mutableListOf<MutableList<Piece>>()  // 3x3 grid of Pieces
+    var orangePieces = mutableListOf<MutableList<Piece>>() // 3x3 grid of Pieces
+    var bluePieces = mutableListOf<MutableList<Piece>>()  // 3x3 grid of Pieces
     private lateinit var board: Board
-    private var colorOfTurn: PieceColor = PieceColor.ORANGE
+    var colorOfTurn: PieceColor = if (orangeStarts) PieceColor.ORANGE else PieceColor.BLUE
+    private var playerOfTurn: String = if (orangeStarts) orangePlayerName else bluePlayerName
     private var gameFinished: Boolean = false
-    private val gameInfoTxt = context.getText(R.string.current_turn)
 
     fun setupGame() {
-        board = Board(3, 3)
+        board = Board(3, 3, this)
         binding.main.post {
             board.mapBoardGridCoordinates(binding.boardImg)
         }
-        binding.gameInfoTxt.text = "$gameInfoTxt $colorOfTurn"
+        binding.gameInfoTxt.text = context.resources.getString(R.string.current_turn, playerOfTurn)
         addPiecesDynamically()
     }
 
@@ -30,18 +35,30 @@ class GameManager(private val context: Context, private val binding: ActivityGam
 
     fun handleInBoardPositioned(piece: Piece) {
         colorOfTurn = piece.color.getTheOtherColor()
-        binding.gameInfoTxt.text = "$gameInfoTxt $colorOfTurn"
+        playerOfTurn = if (colorOfTurn == PieceColor.ORANGE) orangePlayerName else bluePlayerName
+
+        binding.gameInfoTxt.text = context.resources.getString(R.string.current_turn, playerOfTurn)
+
+        if (board.determineDraw()) {
+            binding.gameInfoTxt.text = context.resources.getString(R.string.draw_game)
+            gameFinished = true
+            return
+        }
+
 
         val colorOfWinner: PieceColor? = board.determineWinner()
 
+
         if (colorOfWinner != null) {
-            binding.gameInfoTxt.text = context.resources.getString(R.string.player_won, "$colorOfWinner")
+            val winnerName =
+                if (colorOfWinner == PieceColor.ORANGE) orangePlayerName else bluePlayerName
+            binding.gameInfoTxt.text =
+                context.resources.getString(R.string.player_won, winnerName)
             gameFinished = true
         }
     }
 
     private fun addPiecesDynamically() {
-
         createPieces(PieceColor.ORANGE, orangePieces)
         createPieces(PieceColor.BLUE, bluePieces)
 
@@ -50,7 +67,6 @@ class GameManager(private val context: Context, private val binding: ActivityGam
             setPiecesToInitialPos(binding.bottomPiecesHouseImg, bluePieces)
         }
     }
-
 
     private fun createPieces(
         color: PieceColor,
@@ -76,7 +92,6 @@ class GameManager(private val context: Context, private val binding: ActivityGam
             }
             targetList.add(rowList)
         }
-
     }
 
     private fun setPiecesToInitialPos(
@@ -94,7 +109,6 @@ class GameManager(private val context: Context, private val binding: ActivityGam
                 )
             }
         }
-
     }
 
     companion object {
@@ -126,7 +140,6 @@ class GameManager(private val context: Context, private val binding: ActivityGam
                 }
                 true
             }
-
         }
 
         fun removeDraggability(guiObject: View) {

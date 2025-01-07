@@ -25,8 +25,22 @@ class ActivityMain : AppCompatActivity() {
         }
 
         binding.startBtn.setOnClickListener {
-            val intent = Intent(this, ActivityGame::class.java)
-            startActivity(intent)
+            val bluePlayerName = binding.bluePlayerInput.text.toString()
+            val orangePlayerName = binding.orangePlayerInput.text.toString()
+
+            if (bluePlayerName.isEmpty() || orangePlayerName.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.toast_fill_player_names),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val intent = Intent(this, ActivityGame::class.java)
+                intent.putExtra("blue_player_name", bluePlayerName)
+                intent.putExtra("orange_player_name", orangePlayerName)
+                intent.putExtra("orange_starts", binding.orangeStartsSwitch.isChecked)
+                startActivity(intent)
+            }
         }
 
         binding.rulesBtn.setOnClickListener {
@@ -35,12 +49,12 @@ class ActivityMain : AppCompatActivity() {
     }
 
     private fun showGameRulesDialog() {
-        val rulesText = getText(R.string.rules_txt)
+        val rulesText = getString(R.string.rules_txt)
 
         val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Regras do Jogo")
+            .setTitle(getString(R.string.rules_dialog_title))
             .setMessage(rulesText)
-            .setPositiveButton("Fechar") { dialog, _ ->
+            .setPositiveButton(getString(R.string.close_button)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()

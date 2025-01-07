@@ -16,6 +16,7 @@ class Piece(
 ) {
     private var initialX: Float = 0.0f
     private var initialY: Float = 0.0f
+    var isInBoard = false
 
 
     private val imageView: ImageView = ImageView(context).apply {
@@ -66,6 +67,7 @@ class Piece(
             return
         }
 
+        isInBoard = true
         val targetCoordinate = board.positionPieceAndGetCoordinate(this, inGridPoint)
         piece.x = targetCoordinate.x - (piece.width / 2)
         piece.y = targetCoordinate.y - (piece.height / 2)
